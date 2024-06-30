@@ -1,26 +1,65 @@
-const authModel = require('../models/auth.model');
+const Usuario = require('../models/Usuario.model');
+const bcrypt = require('bcryptjs');
+const { generarJWT } = require('../helpers/jwt');
 
 const crearUsuario = async (req, res) => {
+    const { name, email, password } = req.body;
+
     try {
-        const user = await authModel.create(req.body);
-        res.status(201).json(user);
+        // Verificar el email en la DB
+        const usuario = await Usuario.findOne({ where: { email } }); // Es igual a where: { email: email }
+        if (usuario) {
+            return res.status(400).json({
+                ok: false,
+                msg: "El email ya se encuentra registrado"
+            });
+        }
+
+        // Guardo usuario con el modelo
+        const dbUsuario = new Usuario(req.body);
+
+        // Hashear la contraseña
+        const salt = bcrypt.genSaltSync();
+        dbUsuario.password = bcrypt.hashSync(password, salt);
+
+        
+        // Guardar usuario en DB
+        await dbUsuario.save();
+
+        // Generar el JWT
+        const token = await generarJWT(dbUsuario.id, name)
+
+        // Generar respuesta exitosa
+        return res.status(201).json({
+            ok: true,
+            ...dbUsuario.dataValues,
+            token
+        });
     } catch (error) {
-        res.status(500).json({ msg: 'Error interno del servidor' });
+        console.error("Error: ", error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno del servidor'
+        });
     }
 }
 
 const loginUsuario = async (req, res) => {
     try {
-        const user = await authModel.create(req.body);
+        const user = await Usuario.create(req.body);
         res.status(201).json(user);
     } catch (error) {
-        res.status(500).json({ msg: 'Error interno del servidor' });
+        console.error("Error: ", error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno del servidor'
+        });
     }
 }
 
 const revalidarToken = async (req, res) => {
     try {
-        const token = await authModel.findByPk(req.params.token);
+        const token = await Usuario.findByPk(req.params.token);
         if (!token) {
             return res.status(404).json({ mensaje: 'Token no encontrado' });
         }
