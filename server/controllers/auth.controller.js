@@ -22,15 +22,15 @@ const crearUsuario = async (req, res) => {
         const salt = bcrypt.genSaltSync();
         dbUsuario.password = bcrypt.hashSync(password, salt);
 
-        
+
         // Guardar usuario en DB
         await dbUsuario.save();
 
         // Generar el JWT
-        const token = await generarJWT(dbUsuario.id, name)
+        const token = await generarJWT(dbUsuario.id, name);
 
         // Generar respuesta exitosa
-        return res.status(201).json({
+        res.status(201).json({
             ok: true,
             ...dbUsuario.dataValues,
             token
@@ -45,9 +45,36 @@ const crearUsuario = async (req, res) => {
 }
 
 const loginUsuario = async (req, res) => {
+
+    const { email, password } = req.body;
+
     try {
-        const user = await Usuario.create(req.body);
-        res.status(201).json(user);
+        const dbUsuario = await Usuario.findOne({ where: { email } }); // Es igual a where: { email: email }
+        if (!dbUsuario) {
+            return res.status(400).json({
+                ok: false,
+                msg: "Las credenciales no son válidas"
+            });
+        }
+
+        //Confirmar si el password hace match
+        const validPassword = bcrypt.compareSync(password, dbUsuario.password);
+        if (!validPassword) {
+            return res.status(400).json({
+                ok: false,
+                msg: "El password no es válido"
+            });
+        }
+
+        // Generar el JWT
+        const token = await generarJWT(dbUsuario.id, dbUsuario.name);
+
+        // Respues del servicio
+        res.status(201).json({
+            ok: true,
+            ...dbUsuario.dataValues,
+            token
+        });
     } catch (error) {
         console.error("Error: ", error)
         res.status(500).json({
