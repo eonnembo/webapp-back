@@ -84,15 +84,19 @@ const loginUsuario = async (req, res) => {
 }
 
 const revalidarToken = async (req, res) => {
-    const { id, name } = req;
+    const { id } = req;
+
+    // Leer la DB busco por id para obtener email
+    const dbUsuario = await Usuario.findByPk(id);
 
     // Generar el JWT
-    const token = await generarJWT(id, name);
+    const token = await generarJWT(id, dbUsuario.name);
 
     return res.json({
         ok: true,
         id,
-        name,
+        name: dbUsuario.name,
+        email: dbUsuario.email,
         token
     })
 }
