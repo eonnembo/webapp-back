@@ -1,4 +1,4 @@
-const authModel = require('../models/auth.model.js');
+const authModel = require('../models/auth.model');
 
 const crearUsuario = async (req, res) => {
     try {

@@ -1,4 +1,4 @@
-const db = require("../db/config.js")
+const db = require("../db/config")
 const { DataTypes } = require("sequelize")
 
 //Nombre de la tabla, nombre de las columnas
