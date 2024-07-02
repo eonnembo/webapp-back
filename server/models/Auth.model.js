@@ -5,7 +5,8 @@ const { DataTypes } = require("sequelize")
 const AuthModel = db.define('usuario', {
     idEmpresa: { type: DataTypes.INTEGER,required: true },
     email: { type: DataTypes.STRING, required: true, unique: true },
-    password: { type: DataTypes.STRING, required: true }
+    password: { type: DataTypes.STRING, required: true },
+    cambiarPassword: { type: DataTypes.BOOLEAN }
 });
 
 module.exports = AuthModel

@@ -1,7 +1,21 @@
 const Usuario = require('../models/Usuario.model');
 
 const traerUsuarios = async (req, res) => {}
-const traerUnUsuario = async (req, res) => {}
+const traerUnUsuario = async (req, res) => {
+    try {
+      
+        const usuarioEncontrado = await Usuario.findByPk(req.params.id);
+        if (!usuarioEncontrado) {
+            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        }
+
+        res.json(usuarioEncontrado);
+    } catch (error) {
+        console.error('Error al buscar el usuario:', error);
+        res.status(500).json({ mensaje: 'Error interno del servidor' });
+    }
+};
+
 const crearUsuario = async (req, res) => {
     const { idEmpresa, nombre, email, password, cambiarPassword } = req.body;
 
