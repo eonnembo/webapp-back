@@ -7,6 +7,9 @@ const db = new Sequelize({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     port: process.env.DB_PORT,
+    define: {
+        freezeTableName: true // Esto desactiva la pluralización automática para todos los modelos
+    }
 })
 
 module.exports = db

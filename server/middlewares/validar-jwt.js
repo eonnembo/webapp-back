@@ -10,13 +10,10 @@ const validarJWT = (req, res, next) => {
             msg: 'Error en el token'
         });
     }
-
     try {
-        const { id, name, email } = jwt.verify(token, process.env.SECRET_JWT_SEED);
+        const { id, codigo } = jwt.verify(token, process.env.SECRET_JWT_SEED);
         req.id = id;
-        req.name = name;
-        req.email = email;
-
+        req.codigo = codigo;
     } catch (error) {
         return res.status(401).json({
             ok: false,
