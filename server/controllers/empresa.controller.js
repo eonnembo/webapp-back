@@ -3,9 +3,9 @@ const Empresa = require('../models/Empresa.model');
 const traerEmpresas = async (req, res) => {
     try {
         const empresa = await Empresa.findAll()
-        res.json(empresa)
+        res.status(200).json(empresa)
     } catch (error) {
-        res.json({ ok: false, msg: error.message, icon: error })
+        res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
 };
 
@@ -16,7 +16,7 @@ const traerUnaEmpresa = async (req, res) => {
             return res.status(404).json({ ok: false, msg: 'Empresa no encontrado', icon: 'error' });
         }
 
-        res.json(empresaEncontrada);
+        res.status(200).json(empresaEncontrada);
     } catch (error) {
         console.error('Error al buscar el Empresa:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
@@ -54,6 +54,7 @@ const modificarEmpresa = async (req, res) => {
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
 }
+
 const eliminarEmpresa = async (req, res) => { 
     try {
         const empresaEncontrada = await Empresa.findByPk(req.params.id);

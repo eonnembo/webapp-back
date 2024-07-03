@@ -5,8 +5,8 @@ const PORT = process.env.PORT || 3000;
 const cors = require("cors");
 const db = require("./db/config");
 const authRouter = require('./routes/auth.routes');
-const usuarioRouter = require('./routes/usuario.routes');
 const empresaRouter = require('./routes/empresa.routes');
+const usuarioRouter = require('./routes/usuario.routes');
 
 // Directorio Público
 app.use(express.static('public'));
@@ -19,8 +19,8 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/auth', authRouter);
-app.use('/api/usuario', usuarioRouter);
 app.use('/api/empresa', empresaRouter);
+app.use('/api/usuario', usuarioRouter);
 
 app.listen(PORT, () => {
     conexionDB();

@@ -12,14 +12,12 @@ router.get('/:id', traerUnUsuario);
 
 // Crear usuario
 router.post('/', [
+    check('usuario')
+        .notEmpty().withMessage('El usuario es requerido')
+        .isLength({ min: 4 }).withMessage('El usuario debe tener al menos 4 caracteres'),
     check('nombre')
-        .notEmpty().withMessage('El nombre es requerido'),
-    check('email')
-        .notEmpty().withMessage('El email es requerido')
-        .isEmail().withMessage('El email no es válido'),
-    check('password')
-        .notEmpty().withMessage('La contraseña es requerida')
-        .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
+        .notEmpty().withMessage('El nombre es requerido')
+        .isLength({ min: 4 }).withMessage('El nombre debe tener al menos 4 caracteres'),
     validarCampos
 ], crearUsuario);
 
@@ -27,12 +25,6 @@ router.post('/', [
 router.put('/:id', [
     check('nombre')
         .notEmpty().withMessage('El nombre es requerido'),
-    check('email')
-        .notEmpty().withMessage('El email es requerido')
-        .isEmail().withMessage('El email no es válido'),
-    check('password')
-        .notEmpty().withMessage('La contraseña es requerida')
-        .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
     validarCampos
 ], modificarUsuario);
 
