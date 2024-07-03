@@ -7,11 +7,8 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 // Login de usuario
 router.post('/', [
-    check('idEmpresa')
-        .notEmpty().withMessage('El código de empresa es requerido'),
-    check('email')
-        .notEmpty().withMessage('El email es requerido')
-        .isEmail().withMessage('El email no es válido'),
+    check('usuario')
+        .notEmpty().withMessage('El usuario es requerido'),
     check('password')
         .notEmpty().withMessage('La contraseña es requerida')
         .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),

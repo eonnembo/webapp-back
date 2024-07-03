@@ -3,15 +3,23 @@ const bcrypt = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 
 const loginUsuario = async (req, res) => {
-    const { idEmpresa, email, password } = req.body;
+    const { usuario, password } = req.body;
 
     try {
-        const dbUsuario = await Auth.findOne({ where: { idEmpresa: idEmpresa, email: email } }); // Es igual a where: { email: email }
+        const dbUsuario = await Auth.findOne({ where: { usuario: usuario } }); // Es igual a where: { email: email }
         if (!dbUsuario) {
             return res.status(400).json({
                 ok: false,
-                msg: "Las credenciales no son válidas",
+                msg: "El usuario no existe",
                 icon: 'warning'
+            });
+        }
+
+        if (!dbUsuario.estado) {
+            return res.status(400).json({
+                ok: false,
+                msg: "El usuario no tiene acceso",
+                icon: 'error'
             });
         }
 
@@ -20,7 +28,7 @@ const loginUsuario = async (req, res) => {
         if (!validPassword) {
             return res.status(400).json({
                 ok: false,
-                msg: "La contraseña no es válida",
+                msg: "La contraseña es incorrecta",
                 icon: 'warning'
             });
         }
@@ -56,7 +64,7 @@ const revalidarToken = async (req, res) => {
     return res.json({
         ok: true,
         id,
-        email: dbUsuario.email,
+        usuario: dbUsuario.usuario,
         token
     })
 }
@@ -78,7 +86,7 @@ const newPassword = async (req, res) => {
         if (!validPassword) {
             return res.status(400).json({
                 ok: false,
-                msg: "La contraseña actual no es válida",
+                msg: "La contraseña actual es incorrecta",
                 icon: 'warning'
             });
         }
