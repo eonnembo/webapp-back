@@ -2,8 +2,8 @@ const Empresa = require('../models/Empresa.model');
 
 const traerEmpresas = async (req, res) => {
     try {
-        const empresa = await Empresa.findAll()
-        res.status(200).json(empresa)
+        const empresa = await Empresa.findAll();
+        res.status(200).json(empresa);
     } catch (error) {
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
@@ -26,7 +26,7 @@ const traerUnaEmpresa = async (req, res) => {
 const crearEmpresa = async (req, res) => {
     // const { nombre, razonSocial, telefono } = req.body;
     try {
-        const empresa = await Empresa.create(req.body)
+        const empresa = await Empresa.create(req.body);
         res.status(201).json({
             ok: true,
             ...empresa,
@@ -47,13 +47,13 @@ const modificarEmpresa = async (req, res) => {
     try {
         await Empresa.update(req.body, {
             where: { id: req.params.id }
-        })
+        });
         res.status(201).json({ ok: true, msg: 'La empresa se actualizó correctamente', icon: 'success' })
     } catch (error) {
         console.error('Error al modificar la empresa:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
-}
+};
 
 const eliminarEmpresa = async (req, res) => { 
     try {
@@ -61,12 +61,12 @@ const eliminarEmpresa = async (req, res) => {
         if (!empresaEncontrada) {
             return res.status(404).json({ ok: false, msg: 'Posteo no encontrado', icon: 'error' });
         }
-        await empresaEncontrada.destroy()
+        await empresaEncontrada.destroy();
         res.json({ ok: false, msg: 'Empresa eliminada correctamente', icon: 'success' });
     } catch (error) {
         console.error('Error al eliminar empresa:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
-}
+};
 
 module.exports = { traerEmpresas, traerUnaEmpresa, crearEmpresa, modificarEmpresa, eliminarEmpresa }

@@ -8,7 +8,8 @@ const traerUsuarios = async (req, res) => {
     } catch (error) {
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
-}
+};
+
 const traerUnUsuario = async (req, res) => {
     try {
         const usuarioEncontrado = await Usuario.findByPk(req.params.id);

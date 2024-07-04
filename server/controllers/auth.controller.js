@@ -50,7 +50,7 @@ const loginUsuario = async (req, res) => {
             icon: 'error'
         });
     }
-}
+};
 
 const revalidarToken = async (req, res) => {
     const { id } = req;
@@ -67,7 +67,7 @@ const revalidarToken = async (req, res) => {
         usuario: dbUsuario.usuario,
         token
     })
-}
+};
 
 const newPassword = async (req, res) => {
     const { id, password, confirmNewPassword, cambiarPassword } = req.body;
