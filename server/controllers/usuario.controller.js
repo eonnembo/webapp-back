@@ -37,7 +37,7 @@ const crearUsuario = async (req, res) => {
         }
 
         const salt = bcrypt.genSaltSync();
-        const passwordHash = bcrypt.hashSync(usuario, salt);
+        const passwordHash = bcrypt.hashSync('123456', salt);
         const dbUsuario = {
             usuario: usuario,
             password: passwordHash,
