@@ -7,6 +7,7 @@ const db = require("./db/config");
 const authRouter = require('./routes/auth.routes');
 const empresaRouter = require('./routes/empresa.routes');
 const usuarioRouter = require('./routes/usuario.routes');
+const clienteRouter = require('./routes/cliente.routes');
 
 // Directorio Público
 app.use(express.static('public'));
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/empresa', empresaRouter);
 app.use('/api/usuario', usuarioRouter);
+app.use('/api/cliente', clienteRouter);
 
 app.listen(PORT, () => {
     conexionDB();

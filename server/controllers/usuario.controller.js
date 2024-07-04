@@ -72,7 +72,7 @@ const modificarUsuario = async (req, res) => {
         await Usuario.update(req.body, {
             where: { id: id }
         })
-        res.status(201).json({ ok: true, msg: 'La usuario se actualizó correctamente', icon: 'success' })
+        res.status(201).json({ ok: true, msg: 'La usuario se modificó correctamente', icon: 'success' })
     } catch (error) {
         console.error('Error al modificar el usuario:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });

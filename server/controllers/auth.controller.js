@@ -110,7 +110,7 @@ const newPassword = async (req, res) => {
             },
             { where: { id: id } }
         );
-        res.status(201).json({ ok: true, msg: "Se actualizó la contraseña correctamente", icon: 'success' });
+        res.status(201).json({ ok: true, msg: "Se modificó la contraseña correctamente", icon: 'success' });
     } catch (error) {
         console.error('Error al modificar contraseña:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });

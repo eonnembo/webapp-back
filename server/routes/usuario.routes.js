@@ -13,18 +13,18 @@ router.get('/:id', traerUnUsuario);
 // Crear usuario
 router.post('/', [
     check('usuario')
-        .notEmpty().withMessage('El usuario es requerido')
-        .isLength({ min: 4 }).withMessage('El usuario debe tener al menos 4 caracteres'),
+        .notEmpty().withMessage('El usuario es requerido.')
+        .isLength({ min: 4 }).withMessage('El usuario debe tener al menos 4 caracteres.'),
     check('nombre')
         .notEmpty().withMessage('El nombre es requerido')
-        .isLength({ min: 4 }).withMessage('El nombre debe tener al menos 4 caracteres'),
+        .isLength({ min: 4 }).withMessage('El nombre debe tener al menos 4 caracteres.'),
     validarCampos
 ], crearUsuario);
 
 // Modificar usuario
 router.put('/:id', [
     check('nombre')
-        .notEmpty().withMessage('El nombre es requerido'),
+        .notEmpty().withMessage('El nombre es requerido.'),
     validarCampos
 ], modificarUsuario);
 
