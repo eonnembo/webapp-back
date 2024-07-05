@@ -5,7 +5,9 @@
 
 ## Características de la webapp
 
-- Panel de inicio de sesión con hash de contraseña y token de validación.
+- Panel de inicio de sesión con cambio de constraseña primer ingreso (Cuando se da de alta nuevo usuario)
+- Hash de contraseña
+- Valiadción de Token.
 - Dashboard predefinido.
 - Operaciones CRUD para clientes.
 - Creación y modificación de empresas.
