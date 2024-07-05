@@ -1,8 +1,12 @@
-usuario: admin
-password: 1234567
+## Credenciales de acceso
 
-** La webapp tiene panel de login con hash de contraseña y valid token **
-** Dashboard hardcord **
-** CRUD de Dlientes **
-** Creación y modificación de Empresas ** 
-** Creacion y modificación de Usuarios ** 
+- **Usuario:** admin
+- **Contraseña:** 1234567
+
+## Características de la webapp
+
+- Panel de inicio de sesión con hash de contraseña y token de validación.
+- Dashboard predefinido.
+- Operaciones CRUD para clientes.
+- Creación y modificación de empresas.
+- Creación y modificación de usuarios.
