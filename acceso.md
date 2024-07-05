@@ -5,7 +5,7 @@
 
 ## Características de la webapp
 
-- Panel de inicio de sesión con cambio de constraseña primer ingreso (Cuando se da de alta nuevo usuario)
+- Panel de inicio de sesión con cambio de constraseña primer ingreso (Cuando se da de alta nuevo usuario la pass por default es 123456)
 - Hash de contraseña
 - Valiadción de Token.
 - Dashboard predefinido.
