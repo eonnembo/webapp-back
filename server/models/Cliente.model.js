@@ -5,11 +5,11 @@ const { DataTypes } = require("sequelize")
 const ClienteModel = db.define('cliente', {
     nombre: { type: DataTypes.STRING, required: true },
     apellido: { type: DataTypes.STRING, required: true },
-    dni: { type: DataTypes.INTEGER(8), required: true },
-    fechaNacimiento: { type: DataTypes.DATE, required: true },
+    dni: { type: DataTypes.DOUBLE(8), required: true },
+    fechaNacimiento: { type: DataTypes.STRING, required: true },
     email: { type: DataTypes.STRING, required: true },
+    estado: { type: DataTypes.ENUM('ACTIVO', 'INACTIVO', 'PENDIENTE'), defaultValue: 'PENDIENTE'},
     telefono: { type: DataTypes.STRING, required: true },
-    estado: { type: DataTypes.ENUM('ACTIVO', 'INACTIVO', 'PENDIENTE'), defaultValue: 'PENDIENTE' },
     idEmpresa: { type: DataTypes.INTEGER, required: true }
 });
 

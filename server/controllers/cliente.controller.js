@@ -13,7 +13,7 @@ const traerUnCliente = async (req, res) => {
     try {
         const clienteEncontrado = await Cliente.findByPk(req.params.id);
         if (!clienteEncontrado) {
-            return res.status(404).json({ ok: true, msg: 'Cliente no encontrado', icon: 'warning' });
+            return res.status(404).json({ ok: false, msg: 'Cliente no encontrado', icon: 'warning' });
         }
 
         res.status(200).json(clienteEncontrado);
@@ -36,19 +36,14 @@ const crearCliente = async (req, res) => {
             });
         }
 
-        const dbCliente = {
-            ...req.body,
-            estado: 'PENDIENTE',
-        };
-
         // Guardar cliente en DB
-        await Cliente.create(dbCliente)
+        await Cliente.create(req.body)
 
         // Generar respuesta exitosa
-        res.status(201).json({ 
-            ok: true, 
-            msg: 'Cliente creado correctamente', 
-            icon: 'success' 
+        res.status(201).json({
+            ok: true,
+            msg: 'Cliente creado correctamente',
+            icon: 'success'
         });
     } catch (error) {
         console.error("Error: ", error);
@@ -56,7 +51,7 @@ const crearCliente = async (req, res) => {
     }
 };
 
-const modificarCliente = async (req, res) => { 
+const modificarCliente = async (req, res) => {
     const { id } = req.body
     try {
         await Cliente.update(req.body, {
@@ -69,6 +64,18 @@ const modificarCliente = async (req, res) => {
     }
 };
 
-const eliminarCliente = async (req, res) => { }
+const eliminarCliente = async (req, res) => {
+    try {
+        const clienteEncontrado = await Cliente.findByPk(req.params.id);
+        if (!clienteEncontrado) {
+            return res.status(404).json({ ok: false, msg: 'Cliente no encontrado', icon: 'warning' });
+        }
+        await clienteEncontrado.destroy()
+        res.json({ ok: true, msg: 'El cliente se eliminó correctamente', icon: 'success' });
+    } catch (error) {
+        console.error('Error al eliminar el cliente:', error);
+        res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
+    }
+}
 
 module.exports = { traerClientes, traerUnCliente, crearCliente, modificarCliente, eliminarCliente }

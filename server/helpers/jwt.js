@@ -4,6 +4,7 @@ const generarJWT = (id, codigo) => {
 
     const payload = { id, codigo };
 
+    console.log("😏 ~ generarJWT ~ payload:", payload)
     return new Promise((resolve, reject) => {
 
         jwt.sign(payload, process.env.SECRET_JWT_SEED, {

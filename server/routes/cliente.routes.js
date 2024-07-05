@@ -13,17 +13,15 @@ router.get('/:id', traerUnCliente);
 // Crear Cliente
 router.post('/', [
     check('nombre')
-        .notEmpty().withMessage('El nombre es requerido.')
-        .isLength({ min: 4 }).withMessage('El nombre debe tener al menos 4 caracteres.'),
+        .notEmpty().withMessage('El nombre es requerido.'),
     check('apellido')
-        .notEmpty().withMessage('El apellido es requerido.')
-        .isLength({ min: 4 }).withMessage('El apellido debe tener al menos 4 caracteres.'),
+        .notEmpty().withMessage('El apellido es requerido.'),
     check('dni')
         .notEmpty().withMessage('El DNI es requerido.')
         .isLength({ min: 8 }).withMessage('El DNI debe tener 8 caracteres.'),
     check('fechaNacimiento')
-        .notEmpty().withMessage('La fecha de nacimiento es requerida.')
-        .isDate().withMessage('La fecha de nacimiento debe tener un formato válido.'),
+        .notEmpty().withMessage('La fecha de nacimiento es requerida.'),
+        // .isDate().withMessage('La fecha de nacimiento debe tener un formato válido.'),
     check('email')
         .notEmpty().withMessage('El email es requerido.')
         .isEmail().withMessage('Ingrese un correo electrónico válido.'),
@@ -36,17 +34,15 @@ router.post('/', [
 // Modificar Cliente
 router.put('/:id', [
     check('nombre')
-        .notEmpty().withMessage('El nombre es requerido.')
-        .isLength({ min: 4 }).withMessage('El nombre debe tener al menos 4 caracteres.'),
+        .notEmpty().withMessage('El nombre es requerido.'),
     check('apellido')
-        .notEmpty().withMessage('El apellido es requerido.')
-        .isLength({ min: 4 }).withMessage('El apellido debe tener al menos 4 caracteres.'),
+        .notEmpty().withMessage('El apellido es requerido.'),
     check('dni')
         .notEmpty().withMessage('El DNI es requerido.')
         .isLength({ min: 8 }).withMessage('El DNI debe tener 8 caracteres.'),
     check('fechaNacimiento')
-        .notEmpty().withMessage('La fecha de nacimiento es requerida.')
-        .isDate().withMessage('La fecha de nacimiento debe tener un formato válido.'),
+        .notEmpty().withMessage('La fecha de nacimiento es requerida.'),
+        // .isDate().withMessage('La fecha de nacimiento debe tener un formato válido.'),
     check('email')
         .notEmpty().withMessage('El email es requerido.')
         .isEmail().withMessage('Ingrese un correo electrónico válido.'),
