@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require("cors");
+const path = require("path");
 const db = require("./db/config");
 const authRouter = require('./routes/auth.routes');
 const empresaRouter = require('./routes/empresa.routes');
@@ -23,6 +24,11 @@ app.use('/api/auth', authRouter);
 app.use('/api/empresa', empresaRouter);
 app.use('/api/usuario', usuarioRouter);
 app.use('/api/cliente', clienteRouter);
+
+// Manejar demas rutas
+app.get('*', (req, res) => {
+    res.sendFile( path.resolve( __dirname, 'public/index.html' ) )
+})
 
 app.listen(PORT, () => {
     conexionDB();
