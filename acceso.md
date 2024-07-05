@@ -7,7 +7,7 @@
 
 - Panel de inicio de sesión con cambio de constraseña primer ingreso (Cuando se da de alta nuevo usuario la pass por default es 123456)
 - Hash de contraseña
-- Valiadción de Token.
+- Validación de Token.
 - Dashboard predefinido.
 - Operaciones CRUD para clientes.
 - Creación y modificación de empresas.
