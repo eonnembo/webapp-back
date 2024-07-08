@@ -7,7 +7,7 @@ const AuthModel = db.define('usuario', {
     password: { type: DataTypes.STRING, required: true },
     cambiarPassword: { type: DataTypes.BOOLEAN, required: true },
     estado: { type: DataTypes.BOOLEAN, required: true },
-    idEmpresa: { type: DataTypes.INTEGER, required: true },
+    idSucursal: { type: DataTypes.INTEGER, required: true },
 });
 
 module.exports = AuthModel

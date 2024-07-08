@@ -1,4 +1,5 @@
 const Cliente = require('../models/Cliente.model');
+const bcrypt = require('bcryptjs');
 
 const traerClientes = async (req, res) => {
     try {
@@ -36,8 +37,10 @@ const crearCliente = async (req, res) => {
             });
         }
 
+        const salt = bcrypt.genSaltSync();
+        const passwordHash = bcrypt.hashSync('123456', salt);
         // Guardar cliente en DB
-        await Cliente.create(req.body)
+        await Cliente.create({ ...req.body, password: passwordHash })
 
         // Generar respuesta exitosa
         res.status(201).json({

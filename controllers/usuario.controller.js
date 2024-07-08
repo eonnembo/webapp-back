@@ -25,7 +25,7 @@ const traerUnUsuario = async (req, res) => {
 };
 
 const crearUsuario = async (req, res) => {
-    const { usuario, nombre, apellido, email, idPerfil, idEmpresa } = req.body;
+    const { usuario, nombre, apellido, email, idPerfil, idSucursal } = req.body;
     try {
         // Verificar el email en la DB
         const usuarioEncontrado = await Usuario.findOne({ where: { usuario: usuario } });
@@ -47,7 +47,7 @@ const crearUsuario = async (req, res) => {
             email: email,
             estado: true,
             idPerfil: idPerfil,
-            idEmpresa: idEmpresa,
+            idSucursal: idSucursal,
             cambiarPassword: true
         };
 

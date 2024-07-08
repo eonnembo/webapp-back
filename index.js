@@ -9,6 +9,7 @@ const authRouter = require('./routes/auth.routes');
 const empresaRouter = require('./routes/empresa.routes');
 const usuarioRouter = require('./routes/usuario.routes');
 const clienteRouter = require('./routes/cliente.routes');
+const sucursalRouter = require('./routes/sucursal.routes');
 
 // Directorio Público
 app.use(express.static('public'));
@@ -24,25 +25,28 @@ app.use('/api/auth', authRouter);
 app.use('/api/empresa', empresaRouter);
 app.use('/api/usuario', usuarioRouter);
 app.use('/api/cliente', clienteRouter);
+app.use('/api/sucursal', sucursalRouter);
 
-// Manejar demas rutas
+// Manejar demás rutas
 app.get('*', (req, res) => {
-    res.sendFile( path.resolve( __dirname, 'public/index.html' ) )
-})
+    res.sendFile(path.resolve(__dirname, 'public/index.html'))
+});
 
 app.listen(PORT, () => {
     conexionDB();
     console.log(`El servidor corriendo en puerto ${PORT}`);
-})
+});
 
-//Conexión a la DB
+// Conexión a la DB
 const conexionDB = async () => {
     try {
         await db.authenticate();
         console.log("Conexión OK a la DB");
+
+        // Sincroniza los modelos con la base de datos
+        await db.sync();
+        console.log("Tablas sincronizadas correctamente.");
     } catch (error) {
         throw new Error(`Error a la hora de inicializar DB ${error}`);
     }
-}
-
-
+};

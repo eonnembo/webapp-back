@@ -17,17 +17,14 @@ router.post('/', [
     check('apellido')
         .notEmpty().withMessage('El apellido es requerido.'),
     check('dni')
-        .notEmpty().withMessage('El DNI es requerido.')
-        .isLength({ min: 8 }).withMessage('El DNI debe tener 8 caracteres.'),
+        .notEmpty().withMessage('El DNI es requerido.'),
     check('fechaNacimiento')
         .notEmpty().withMessage('La fecha de nacimiento es requerida.'),
-        // .isDate().withMessage('La fecha de nacimiento debe tener un formato válido.'),
     check('email')
         .notEmpty().withMessage('El email es requerido.')
         .isEmail().withMessage('Ingrese un correo electrónico válido.'),
     check('telefono')
         .notEmpty().withMessage('El teléfono es requerido.'),
-    // .isLength({ min: 4 }).withMessage('El teléfono debe tener al menos 4 caracteres'),
     validarCampos
 ], crearCliente);
 
@@ -38,18 +35,14 @@ router.put('/:id', [
     check('apellido')
         .notEmpty().withMessage('El apellido es requerido.'),
     check('dni')
-        .notEmpty().withMessage('El DNI es requerido.')
-        .isLength({ min: 8 }).withMessage('El DNI debe tener 8 caracteres.'),
+        .notEmpty().withMessage('El DNI es requerido.'),
     check('fechaNacimiento')
         .notEmpty().withMessage('La fecha de nacimiento es requerida.'),
-        // .isDate().withMessage('La fecha de nacimiento debe tener un formato válido.'),
     check('email')
         .notEmpty().withMessage('El email es requerido.')
         .isEmail().withMessage('Ingrese un correo electrónico válido.'),
     check('telefono')
         .notEmpty().withMessage('El teléfono es requerido.'),
-    // .isLength({ min: 4 }).withMessage('El teléfono debe tener al menos 4 caracteres'),
-    validarCampos
 ], modificarCliente);
 
 // Eliminar un Cliente
