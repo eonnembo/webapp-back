@@ -24,9 +24,13 @@ const traerUnaEmpresa = async (req, res) => {
 };
 
 const crearEmpresa = async (req, res) => {
-    // const { nombre, razonSocial, telefono } = req.body;
+    const { cuit, telefono } = req.body;
+    const cuitSinGuion = cuit.replace(/\-/g, '');
+
+    const telefonoSinEspacio = telefono.replace(/\s/g, '');
+
     try {
-        const empresa = await Empresa.create(req.body);
+        const empresa = await Empresa.create({ ...req.body, cuit: cuitSinGuion, telefono: telefonoSinEspacio });
         res.status(201).json({
             ok: true,
             ...empresa,
@@ -43,9 +47,14 @@ const crearEmpresa = async (req, res) => {
     }
 };
 
-const modificarEmpresa = async (req, res) => { 
+const modificarEmpresa = async (req, res) => {
+    const { cuit, telefono } = req.body;
+    const cuitSinGuion = cuit.replace(/\-/g, '');
+
+    const telefonoSinEspacio = telefono.replace(/\s/g, '');
+
     try {
-        await Empresa.update(req.body, {
+        await Empresa.update({ ...req.body, cuit: cuitSinGuion, telefono: telefonoSinEspacio }, {
             where: { id: req.params.id }
         });
         res.status(201).json({ ok: true, msg: 'La empresa se actualizó correctamente', icon: 'success' })
@@ -55,7 +64,7 @@ const modificarEmpresa = async (req, res) => {
     }
 };
 
-const eliminarEmpresa = async (req, res) => { 
+const eliminarEmpresa = async (req, res) => {
     try {
         const empresaEncontrada = await Empresa.findByPk(req.params.id);
         if (!empresaEncontrada) {

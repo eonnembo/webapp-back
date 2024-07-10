@@ -25,10 +25,17 @@ const traerUnCliente = async (req, res) => {
 };
 
 const crearCliente = async (req, res) => {
-    const { dni } = req.body;
+    const { dni, telefono } = req.body;
+
+    // Eliminar espacios del número de teléfono
+    const telefonoSinEspacio = telefono.replace(/\s/g, '');
+
+    // Eliminar puntos del DNI
+    const dniSinPuntos = dni.replace(/\./g, '');
+
     try {
         // Verificar el email en la DB
-        const clienteEncontrado = await Cliente.findOne({ where: { dni: dni } });
+        const clienteEncontrado = await Cliente.findOne({ where: { dni: dniSinPuntos } });
         if (clienteEncontrado) {
             return res.status(400).json({
                 ok: false,
@@ -40,7 +47,7 @@ const crearCliente = async (req, res) => {
         const salt = bcrypt.genSaltSync();
         const passwordHash = bcrypt.hashSync('123456', salt);
         // Guardar cliente en DB
-        await Cliente.create({ ...req.body, password: passwordHash })
+        await Cliente.create({ ...req.body, password: passwordHash, dni: dniSinPuntos, telefono: telefonoSinEspacio });
 
         // Generar respuesta exitosa
         res.status(201).json({
@@ -55,12 +62,26 @@ const crearCliente = async (req, res) => {
 };
 
 const modificarCliente = async (req, res) => {
-    const { id } = req.body
+    const { id, dni, telefono } = req.body;
+
+    // Eliminar espacios del número de teléfono
+    const telefonoSinEspacio = telefono.replace(/\s/g, '');
+
+    // Eliminar puntos del DNI
+    const dniSinPuntos = dni.replace(/\./g, '');
+
     try {
-        await Cliente.update(req.body, {
+        // Actualizar cliente en DB
+        await Cliente.update({ ...req.body, dni: dniSinPuntos, telefono: telefonoSinEspacio }, {
             where: { id: id }
-        })
-        res.status(201).json({ ok: true, msg: 'El cliente se modificó correctamente', icon: 'success' })
+        });
+
+        // Generar respuesta exitosa
+        res.status(201).json({
+            ok: true,
+            msg: 'El cliente se modificó correctamente',
+            icon: 'success'
+        });
     } catch (error) {
         console.error('Error al modificar el cliente:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });

@@ -9,7 +9,7 @@ const ClienteModel = db.define('cliente', {
     dni: { type: DataTypes.STRING(10), allowNull: false },
     fechaNacimiento: { type: DataTypes.DATEONLY, allowNull: false },
     email: { type: DataTypes.STRING, allowNull: false },
-    estado: { type: DataTypes.ENUM('activo', 'inactivo', 'pendiente'), allowNull: false, defaultValue: 'pendiente'},
+    estado: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
     telefono: { type: DataTypes.STRING(15), allowNull: false }
 });
 
