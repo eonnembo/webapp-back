@@ -17,19 +17,38 @@ const traerServicios = async (req, res) => {
 
 const crearServicio = async (req, res) => {
     try {
+        const { idCliente, idPlan } = req.body;
 
-        await ServicioModel.create(req.body)
+        // Verifica si ya existe un registro con el mismo idCliente e idPlan
+        const existeRegistro = await ServicioModel.findOne({
+            where: {
+                idCliente: idCliente,
+                idPlan: idPlan,
+            },
+        });
+
+        if (existeRegistro) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Ya se encuentra cargado el servicio, para el cliente seleccionado.',
+                icon: 'warning',
+            });
+        }
+
+        // Si no existe, crea el nuevo servicio
+        await ServicioModel.create(req.body);
 
         // Generar respuesta exitosa
         res.status(201).json({
             ok: true,
             msg: 'Servicio creado correctamente',
-            icon: 'success'
+            icon: 'success',
         });
     } catch (error) {
-        console.error("Error: ", error);
+        console.error('Error al crear el servicio:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
 };
+
 
 module.exports = { traerServicios, crearServicio }

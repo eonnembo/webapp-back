@@ -103,3 +103,34 @@ const eliminarCliente = async (req, res) => {
 }
 
 module.exports = { traerClientes, traerUnCliente, crearCliente, modificarCliente, eliminarCliente }
+
+// const { Op } = require('sequelize');
+
+// const buscarClientes = async (req, res) => {
+//     const cadena = req.params.cadena;
+
+//     try {
+//         // Crea un objeto con las condiciones de búsqueda
+//         const condiciones = {
+//             where: {
+//                 [Op.or]: [
+//                     { nombre: { [Op.like]: `%${cadena}%` } },
+//                     { apellido: { [Op.like]: `%${cadena}%` } },
+//                     { dni: { [Op.like]: `%${cadena}%` } },
+//                 ],
+//             },
+//         };
+
+//         // Realiza la búsqueda en la base de datos
+//         const clientesEncontrados = await Cliente.findAll(condiciones);
+
+//         if (clientesEncontrados.length === 0) {
+//             return res.status(404).json({ ok: false, msg: 'Clientes no encontrados' });
+//         }
+
+//         res.status(200).json(clientesEncontrados);
+//     } catch (error) {
+//         console.error('Error al buscar clientes:', error);
+//         res.status(500).json({ ok: false, msg: 'Error interno del servidor' });
+//     }
+// };

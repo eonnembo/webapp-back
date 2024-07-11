@@ -7,8 +7,8 @@ const PlanModel = require('../models/Plan.model');
 const ServicioModel = db.define('servicio', {
     idCliente: { type: DataTypes.INTEGER, allowNull: false },
     idPlan: { type: DataTypes.INTEGER, allowNull: false },
-    fechaInicio: { type: DataTypes.DATEONLY, allowNull: false },
-    fechaFin: { type: DataTypes.DATEONLY, allowNull: false },
+    fechaInicio: { type: DataTypes.DATEONLY },
+    fechaFin: { type: DataTypes.DATEONLY },
 });
 
 ClienteModel.hasMany(ServicioModel, { foreignKey: 'id' });

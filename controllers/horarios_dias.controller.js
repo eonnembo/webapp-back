@@ -2,7 +2,7 @@ const HorariosDias = require('../models/HorariosDias.model');
 
 const traerHorariosDiasPlan = async (req, res) => {
     try {
-        const idPlan = req.params.id; //
+        const idPlan = req.params.id;
         const planesEncontrados = await HorariosDias.findAll({
             where: {
                 idPlan: idPlan
@@ -20,4 +20,22 @@ const traerHorariosDiasPlan = async (req, res) => {
     }
 };
 
-module.exports = { traerHorariosDiasPlan }
+const modificarHorariosDiasPlan = async (req, res) => {
+    try {
+        const data = req.body; // Supongamos que recibes el objeto actualizado
+
+        // Itera sobre cada objeto en el array y actualiza la base de datos
+        for (const item of data) {
+            await HorariosDias.update({ cupoHora: item.cupoHora }, {
+                where: { id: item.id }
+            });
+        }
+
+        res.status(200).json({ ok: true, msg: 'CupoHora actualizado correctamente' });
+    } catch (error) {
+        console.error('Error al actualizar el cupoHora:', error);
+        res.status(500).json({ ok: false, msg: 'Error interno del servidor' });
+    }
+};
+
+module.exports = { traerHorariosDiasPlan, modificarHorariosDiasPlan }

@@ -7,7 +7,8 @@ const PlanModel = db.define('plan', {
     importe: { type: DataTypes.DOUBLE(10,2) },
     diasDisponibles: { type: DataTypes.STRING },
     horasDisponibles: { type: DataTypes.STRING },
-    diasPermitidos: { type: DataTypes.INTEGER },
+    diasAsistencia: { type: DataTypes.INTEGER },
+    plazoValidez: { type: DataTypes.INTEGER },
     cupoHora: { type: DataTypes.INTEGER },
     estado: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
     idSucursal: { type: DataTypes.INTEGER, allowNull: false }
