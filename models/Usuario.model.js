@@ -22,7 +22,7 @@ UsuarioModel.sync()
         const [usuario, created] = await UsuarioModel.findOrCreate({
             where: { id: 1 }, // Cambia esto según tus necesidades
             defaults: {
-                usuario: 'administrador',
+                usuario: 'admin',
                 password: passwordHash,
                 nombre: 'Administrador',
                 apellido: null,

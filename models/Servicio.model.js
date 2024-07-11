@@ -7,12 +7,13 @@ const PlanModel = require('../models/Plan.model');
 const ServicioModel = db.define('servicio', {
     idCliente: { type: DataTypes.INTEGER, allowNull: false },
     idPlan: { type: DataTypes.INTEGER, allowNull: false },
+    horariosDias: { type: DataTypes.JSON },
     fechaInicio: { type: DataTypes.DATEONLY },
     fechaFin: { type: DataTypes.DATEONLY },
 });
 
-ClienteModel.hasMany(ServicioModel, { foreignKey: 'id' });
-PlanModel.hasMany(ServicioModel, { foreignKey: 'id' });
+ClienteModel.hasMany(ServicioModel, { foreignKey: 'idCliente' });
+PlanModel.hasMany(ServicioModel, { foreignKey: 'idPlan' });
 ServicioModel.belongsTo(ClienteModel, { foreignKey: 'idCliente' });
 ServicioModel.belongsTo(PlanModel, { foreignKey: 'idPlan' });
 

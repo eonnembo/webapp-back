@@ -1,4 +1,3 @@
-require('../models/HorariosDias.model');
 const Auth = require('../models/Usuario.model');
 const bcrypt = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');

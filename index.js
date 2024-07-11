@@ -13,6 +13,7 @@ const sucursalRouter = require('./routes/sucursal.routes');
 const planRouter = require('./routes/plan.routes');
 const horariosDiasRouter = require('./routes/horarios_dias.routes');
 const servicioRouter = require('./routes/servicio.routes');
+const pagoRouter = require('./routes/pago.routes');
 
 // Directorio Público
 app.use(express.static('public'));
@@ -32,6 +33,7 @@ app.use('/api/sucursal', sucursalRouter);
 app.use('/api/plan', planRouter);
 app.use('/api/horarios-dias', horariosDiasRouter);
 app.use('/api/servicio', servicioRouter);
+app.use('/api/pago', pagoRouter);
 
 // Manejar demás rutas
 app.get('*', (req, res) => {
