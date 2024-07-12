@@ -11,9 +11,9 @@ const validarJWT = (req, res, next) => {
         });
     }
     try {
-        const { id, codigo } = jwt.verify(token, process.env.SECRET_JWT_SEED);
+        const { id, codSuc } = jwt.verify(token, process.env.SECRET_JWT_SEED);
         req.id = id;
-        req.codigo = codigo;
+        req.codSuc = codSuc;
     } catch (error) {
         return res.status(401).json({
             ok: false,

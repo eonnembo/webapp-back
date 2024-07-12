@@ -1,4 +1,6 @@
+const sequelize = require('../db/config');
 const Pago = require('../models/Pago.model');
+const { ServicioModel } = require('../models/Servicio.model');
 
 const traerPagos = async (req, res) => {
     try {
@@ -13,7 +15,7 @@ const traerPagoServicio = async (req, res) => {
     const { id } = req.params.id;
     try {
         const pagoEncontrado = await Pago.findAll(req.body, {
-            where: { idServico: id }
+            where: { idServicio: id }
         });
         if (!pagoEncontrado) {
             return res.status(404).json({ ok: false, msg: 'Pago no encontrado', icon: 'warning' });
@@ -27,22 +29,44 @@ const traerPagoServicio = async (req, res) => {
 };
 
 const crearPago = async (req, res) => {
+    const t = await sequelize.transaction();
+
     try {
+        const { idServicio, idUsuario, importe, plazoValidez } = req.body;
 
-        // Guardar Pago en DB
-        await Pago.create(req.body)
+        // Crear el registro de pago
+        await Pago.create({ idServicio, idUsuario, importe }, { transaction: t });
 
-        // Generar respuesta exitosa
+        // Calcular la fecha de finalización
+        const fechaInicio = new Date();
+        const fechaFin = new Date(fechaInicio);
+        fechaFin.setDate(fechaInicio.getDate() + plazoValidez);
+
+        // Actualizar las fechas en el registro de servicio
+        await ServicioModel.update(
+            { fechaInicio, fechaFin },
+            {
+                where: { id: idServicio },
+                fields: ['fechaInicio', 'fechaFin'],
+                transaction: t,
+            }
+        );
+
+        // Confirmar la transacción
+        await t.commit();
         res.status(201).json({
             ok: true,
-            msg: 'Pago creado correctamente',
-            icon: 'success'
+            msg: 'Pago cargado correctamente',
+            icon: 'success',
         });
     } catch (error) {
-        console.error("Error: ", error);
+        // Revertir la transacción en caso de error
+        await t.rollback();
+        console.error('Error al registrar pago:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
 };
+
 
 const modificarPago = async (req, res) => {
     const { id } = req.body

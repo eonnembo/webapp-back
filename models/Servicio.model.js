@@ -5,8 +5,8 @@ const PlanModel = require('../models/Plan.model');
 
 //Nombre de la tabla, nombre de las columnas
 const ServicioModel = db.define('servicio', {
-    idCliente: { type: DataTypes.INTEGER, allowNull: false },
-    idPlan: { type: DataTypes.INTEGER, allowNull: false },
+    idCliente: { type: DataTypes.INTEGER },
+    idPlan: { type: DataTypes.INTEGER },
     horariosDias: { type: DataTypes.JSON },
     fechaInicio: { type: DataTypes.DATEONLY },
     fechaFin: { type: DataTypes.DATEONLY },

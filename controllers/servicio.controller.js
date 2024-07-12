@@ -7,7 +7,7 @@ const traerServicios = async (req, res) => {
         const servicios = await ServicioModel.findAll({
             include: [
                 { model: ClienteModel, attributes: ['nombre', 'apellido', 'dni', 'email', 'telefono']},
-                { model: PlanModel, attributes: ['nombre', 'descripcion', 'importe']}
+                { model: PlanModel, attributes: ['nombre', 'descripcion', 'plazoValidez', 'importe']}
             ]
         });
         res.status(200).json(servicios);

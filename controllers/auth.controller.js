@@ -7,6 +7,7 @@ const loginUsuario = async (req, res) => {
 
     try {
         const dbUsuario = await Auth.findOne({ where: { usuario: usuario } }); // Es igual a where: { email: email }
+        console.log("😏 ~ loginUsuario ~ dbUsuario:", dbUsuario)
         if (!dbUsuario) {
             return res.status(400).json({
                 ok: false,
@@ -34,7 +35,7 @@ const loginUsuario = async (req, res) => {
         }
 
         // Generar el JWT
-        const token = await generarJWT(dbUsuario.id, dbUsuario.idEmpresa);
+        const token = await generarJWT(dbUsuario.id, dbUsuario.idSucursal);
 
         // Respues del servicio
         res.status(201).json({
@@ -59,7 +60,7 @@ const revalidarToken = async (req, res) => {
     const dbUsuario = await Auth.findByPk(id);
 
     // Generar el JWT
-    const token = await generarJWT(id, dbUsuario.idEmpresa);
+    const token = await generarJWT(id, dbUsuario.idSucursal);
 
     return res.json({
         ok: true,
