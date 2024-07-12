@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { traerServicios, crearServicio } = require('../controllers/servicio.controller');
+const { traerServicios, crearServicio, modificarCobro } = require('../controllers/servicio.controller');
 
 // Todos los Servicios
 router.get('/', traerServicios);
@@ -10,5 +10,10 @@ router.get('/', traerServicios);
 
 // Crear Servicio
 router.post('/', crearServicio);
+
+// Modifica ccobro
+router.put('/cobro/:id', modificarCobro);
+
+
 
 module.exports = router;

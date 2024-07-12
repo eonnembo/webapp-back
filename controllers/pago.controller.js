@@ -37,6 +37,14 @@ const crearPago = async (req, res) => {
         // Crear el registro de pago
         await Pago.create({ idServicio, idUsuario, importe }, { transaction: t });
 
+        const pagos = await Pago.findAll({
+            where: { idServicio, estado: true },
+            attributes: [[sequelize.fn('SUM', sequelize.col('importe')), 'totalImporte']],
+            transaction: t,
+        });
+
+        const totalImporte = pagos[0].get('totalImporte');
+
         // Calcular la fecha de finalización
         const fechaInicio = new Date();
         const fechaFin = new Date(fechaInicio);
@@ -44,10 +52,10 @@ const crearPago = async (req, res) => {
 
         // Actualizar las fechas en el registro de servicio
         await ServicioModel.update(
-            { fechaInicio, fechaFin },
+            { fechaInicio, fechaFin, cobro: totalImporte },
             {
                 where: { id: idServicio },
-                fields: ['fechaInicio', 'fechaFin'],
+                fields: ['fechaInicio', 'fechaFin', 'cobro'],
                 transaction: t,
             }
         );
@@ -66,7 +74,6 @@ const crearPago = async (req, res) => {
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
 };
-
 
 const modificarPago = async (req, res) => {
     const { id } = req.body

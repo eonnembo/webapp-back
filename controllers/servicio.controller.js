@@ -64,6 +64,41 @@ const crearServicio = async (req, res) => {
     }
 };
 
+const modificarCobro = async (req, res) => {
+    const { id } = req.params;
+    const { cobro } = req.body;
+
+    try {
+        // Busca el registro de servicio por ID
+        const servicio = await ServicioModel.findByPk(id);
+
+        if (!servicio) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Servicio no encontrado',
+                icon: 'error',
+            });
+        }
+
+        // Actualiza el campo "cobro"
+        servicio.cobro = cobro;
+        await servicio.save();
+
+        res.status(200).json({
+            ok: true,
+            msg: 'Cobro actualizado correctamente',
+            icon: 'success',
+        });
+    } catch (error) {
+        console.error('Error al actualizar el cobro:', error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno del servidor',
+            icon: 'error',
+        });
+    }
+};
+
 
 // const crearServicio = async (req, res) => {
 //     try {
@@ -100,4 +135,4 @@ const crearServicio = async (req, res) => {
 //     }
 // };
 
-module.exports = { traerServicios, crearServicio }
+module.exports = { traerServicios, crearServicio, modificarCobro }

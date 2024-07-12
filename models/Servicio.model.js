@@ -7,6 +7,7 @@ const PlanModel = require('../models/Plan.model');
 const ServicioModel = db.define('servicio', {
     idCliente: { type: DataTypes.INTEGER },
     idPlan: { type: DataTypes.INTEGER },
+    cobro: { type: DataTypes.DOUBLE(10,2) },
     horariosDias: { type: DataTypes.JSON },
     fechaInicio: { type: DataTypes.DATEONLY },
     fechaFin: { type: DataTypes.DATEONLY },

@@ -3,6 +3,7 @@ const { DataTypes } = require("sequelize")
 
 const PagoModel = db.define('pago', {
     importe: { type: DataTypes.DOUBLE(10,2) },
+    estado: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
     idServicio: { type: DataTypes.INTEGER, allowNull: false },
     idUsuario: { type: DataTypes.INTEGER, allowNull: false }
 });
