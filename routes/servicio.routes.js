@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { traerServicios, crearServicio, modificarCobro } = require('../controllers/servicio.controller');
+const { traerServicios, crearServicio, modificarServicioHorariosDias } = require('../controllers/servicio.controller');
 
 // Todos los Servicios
 router.get('/', traerServicios);
@@ -12,7 +12,7 @@ router.get('/', traerServicios);
 router.post('/', crearServicio);
 
 // Modifica ccobro
-router.put('/cobro/:id', modificarCobro);
+router.put('/:id', modificarServicioHorariosDias);
 
 
 

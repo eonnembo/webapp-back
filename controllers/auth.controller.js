@@ -7,7 +7,6 @@ const loginUsuario = async (req, res) => {
 
     try {
         const dbUsuario = await Auth.findOne({ where: { usuario: usuario } }); // Es igual a where: { email: email }
-        console.log("😏 ~ loginUsuario ~ dbUsuario:", dbUsuario)
         if (!dbUsuario) {
             return res.status(400).json({
                 ok: false,

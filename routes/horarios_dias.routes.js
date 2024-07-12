@@ -5,6 +5,4 @@ const { traerHorariosDiasPlan, modificarHorariosDiasPlan } = require('../control
 // Buscar Horarios Dias Plan
 router.get('/:id', traerHorariosDiasPlan);
 
-router.put('/', modificarHorariosDiasPlan);
-
 module.exports = router;

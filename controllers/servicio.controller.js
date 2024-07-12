@@ -1,13 +1,13 @@
 const sequelize = require('../db/config'); // Importa la instancia de Sequelize// Utiliza la instancia de Sequelize
 const HorariosDias = require('../models/HorariosDias.model');
-const { ServicioModel, ClienteModel, PlanModel  } = require('../models/Servicio.model');
+const { ServicioModel, ClienteModel, PlanModel } = require('../models/Servicio.model');
 
 const traerServicios = async (req, res) => {
     try {
         const servicios = await ServicioModel.findAll({
             include: [
-                { model: ClienteModel, attributes: ['nombre', 'apellido', 'dni', 'email', 'telefono']},
-                { model: PlanModel, attributes: ['nombre', 'descripcion', 'plazoValidez', 'importe']}
+                { model: ClienteModel, attributes: ['nombre', 'apellido', 'dni', 'email', 'telefono'] },
+                { model: PlanModel, attributes: ['nombre', 'descripcion', 'plazoValidez', 'importe'] }
             ]
         });
         res.status(200).json(servicios);
@@ -64,75 +64,44 @@ const crearServicio = async (req, res) => {
     }
 };
 
-const modificarCobro = async (req, res) => {
-    const { id } = req.params;
-    const { cobro } = req.body;
+
+const modificarServicioHorariosDias = async (req, res) => {
+    const t = await sequelize.transaction(); // Iniciar la transacción
 
     try {
-        // Busca el registro de servicio por ID
-        const servicio = await ServicioModel.findByPk(id);
+        const { updHorariosDias, horariosDias } = req.body; // Supongamos que recibes el objeto actualizado
 
+        // Buscar el servicio por ID y actualizar horariosDias
+        const servicio = await ServicioModel.findByPk(req.params.id);
         if (!servicio) {
+            await t.rollback();
             return res.status(404).json({
                 ok: false,
                 msg: 'Servicio no encontrado',
-                icon: 'error',
+                icon: 'warning',
             });
         }
 
-        // Actualiza el campo "cobro"
-        servicio.cobro = cobro;
-        await servicio.save();
+        // Actualizar horariosDias en el servicio
+        servicio.horariosDias = horariosDias;
+        await servicio.save({ transaction: t });
 
-        res.status(200).json({
-            ok: true,
-            msg: 'Cobro actualizado correctamente',
-            icon: 'success',
-        });
+        // Iterar sobre cada objeto en el array y actualizar la tabla horarios_dias
+        for (const item of updHorariosDias) {
+            await HorariosDias.update({ cupoHora: item.cupoHora }, {
+                where: { id: item.id },
+                transaction: t,
+            });
+        }
+
+        await t.commit(); // Confirmar la transacción
+        res.status(200).json({ ok: true, msg: 'Cupo de horas días actualizado correctamente', icon: 'success' });
     } catch (error) {
-        console.error('Error al actualizar el cobro:', error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Error interno del servidor',
-            icon: 'error',
-        });
+        console.error('Error al actualizar el cupoHora:', error);
+        await t.rollback(); // Revertir la transacción en caso de error
+        res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
 };
 
 
-// const crearServicio = async (req, res) => {
-//     try {
-//         const { idCliente, idPlan } = req.body;
-
-//         // Verifica si ya existe un registro con el mismo idCliente e idPlan
-//         const existeRegistro = await ServicioModel.findOne({
-//             where: {
-//                 idCliente: idCliente,
-//                 idPlan: idPlan,
-//             },
-//         });
-
-//         if (existeRegistro) {
-//             return res.status(400).json({
-//                 ok: false,
-//                 msg: 'Ya se encuentra cargado el servicio, para el cliente seleccionado.',
-//                 icon: 'warning',
-//             });
-//         }
-
-//         // Si no existe, crea el nuevo servicio
-//         await ServicioModel.create(req.body);
-
-//         // Generar respuesta exitosa
-//         res.status(201).json({
-//             ok: true,
-//             msg: 'Servicio creado correctamente',
-//             icon: 'success',
-//         });
-//     } catch (error) {
-//         console.error('Error al crear el servicio:', error);
-//         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
-//     }
-// };
-
-module.exports = { traerServicios, crearServicio, modificarCobro }
+module.exports = { traerServicios, crearServicio, modificarServicioHorariosDias }
