@@ -64,6 +64,7 @@ const revalidarToken = async (req, res) => {
     return res.json({
         ok: true,
         id,
+        idPerfil: dbUsuario.idPerfil,
         usuario: dbUsuario.usuario,
         token
     })
