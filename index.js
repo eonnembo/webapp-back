@@ -11,7 +11,7 @@ const usuarioRouter = require('./routes/usuario.routes');
 const clienteRouter = require('./routes/cliente.routes');
 const sucursalRouter = require('./routes/sucursal.routes');
 const planRouter = require('./routes/plan.routes');
-const horariosDiasRouter = require('./routes/horarios_dias.routes');
+const diasHorariosRouter = require('./routes/dias_horarios.routes');
 const servicioRouter = require('./routes/servicio.routes');
 const pagoRouter = require('./routes/pago.routes');
 
@@ -31,7 +31,7 @@ app.use('/api/usuario', usuarioRouter);
 app.use('/api/cliente', clienteRouter);
 app.use('/api/sucursal', sucursalRouter);
 app.use('/api/plan', planRouter);
-app.use('/api/horarios-dias', horariosDiasRouter);
+app.use('/api/dias-horarios', diasHorariosRouter);
 app.use('/api/servicio', servicioRouter);
 app.use('/api/pago', pagoRouter);
 

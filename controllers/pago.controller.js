@@ -32,7 +32,7 @@ const crearPago = async (req, res) => {
     const t = await sequelize.transaction();
 
     try {
-        const { idServicio, idUsuario, importe, plazoValidez } = req.body;
+        const { idServicio, idUsuario, importe, plazoValidez, cobro } = req.body;
 
         // Crear el registro de pago
         await Pago.create({ idServicio, idUsuario, importe }, { transaction: t });
@@ -50,15 +50,28 @@ const crearPago = async (req, res) => {
         const fechaFin = new Date(fechaInicio);
         fechaFin.setDate(fechaInicio.getDate() + plazoValidez);
 
-        // Actualizar las fechas en el registro de servicio
-        await ServicioModel.update(
-            { fechaInicio, fechaFin, cobro: totalImporte },
-            {
-                where: { id: idServicio },
-                fields: ['fechaInicio', 'fechaFin', 'cobro'],
-                transaction: t,
-            }
-        );
+        // Actualizar las fechas y el cobro en el registro de servicio
+        if (cobro > 0) {
+            // Solo actualizar el cobro
+            await ServicioModel.update(
+                { cobro: totalImporte },
+                {
+                    where: { id: idServicio },
+                    fields: ['cobro'],
+                    transaction: t,
+                }
+            );
+        } else {
+            // Actualizar fechaInicio, fechaFin y cobro
+            await ServicioModel.update(
+                { fechaInicio, fechaFin, cobro: totalImporte },
+                {
+                    where: { id: idServicio },
+                    fields: ['fechaInicio', 'fechaFin', 'cobro'],
+                    transaction: t,
+                }
+            );
+        }
 
         // Confirmar la transacción
         await t.commit();

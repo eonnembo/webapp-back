@@ -10,7 +10,7 @@ const UsuarioModel = db.define('usuario', {
     email: { type: DataTypes.STRING },
     estado: { type: DataTypes.BOOLEAN, allowNull: false },
     idPerfil: { type: DataTypes.INTEGER, allowNull: false },
-    idSucursal: { type: DataTypes.INTEGER, allowNull: false },
+    idSucursal: { type: DataTypes.INTEGER },
     cambiarPassword: { type: DataTypes.BOOLEAN, allowNull: false }
 });
 
@@ -29,7 +29,7 @@ UsuarioModel.sync()
                 email: null,
                 estado: true,
                 idPerfil: 1,
-                idSucursal: 1,
+                idSucursal: null,
                 cambiarPassword: true
             }
         });
