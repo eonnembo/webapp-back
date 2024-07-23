@@ -43,7 +43,7 @@ const buscarServicioClientePlan = async (req, res) => {
         if (existeRegistro) {
             return res.status(200).json({
                 ok: true,
-                msg: 'Ya se encuentra cargado el servicio, para el cliente seleccionado.',
+                msg: 'Ya se encuentra cargado el plan, para el cliente seleccionado.',
                 icon: 'warning',
             });
         }
@@ -71,7 +71,7 @@ const crearServicio = async (req, res) => {
             await t.rollback();
             return res.status(400).json({
                 ok: false,
-                msg: 'Ya se encuentra cargado el servicio, para el cliente seleccionado.',
+                msg: 'Ya se encuentra cargado el plan, para el cliente seleccionado.',
                 icon: 'warning',
             });
         }
