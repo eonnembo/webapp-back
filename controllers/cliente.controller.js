@@ -47,12 +47,13 @@ const crearCliente = async (req, res) => {
         const salt = bcrypt.genSaltSync();
         const passwordHash = bcrypt.hashSync('123456', salt);
         // Guardar cliente en DB
-        await Cliente.create({ ...req.body, password: passwordHash, dni: dniSinPuntos, telefono: telefonoSinEspacio });
+        const nuevoCliente = await Cliente.create({ ...req.body, password: passwordHash, dni: dniSinPuntos, telefono: telefonoSinEspacio });
 
         // Generar respuesta exitosa
         res.status(201).json({
             ok: true,
             msg: 'Cliente creado correctamente',
+            idCliente: nuevoCliente.id,
             icon: 'success'
         });
     } catch (error) {

@@ -76,7 +76,7 @@ const crearServicio = async (req, res) => {
             });
         }
 
-        await ServicioModel.create(req.body, { transaction: t });
+        const servicio = await ServicioModel.create(req.body, { transaction: t });
 
         // Supongamos que recibes el objeto actualizado en el body
         const data = req.body.updDiasHorarios;
@@ -91,6 +91,7 @@ const crearServicio = async (req, res) => {
         res.status(201).json({
             ok: true,
             msg: 'Servicio creado correctamente',
+            servicio: servicio,
             icon: 'success',
         });
     } catch (error) {
