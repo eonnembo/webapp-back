@@ -16,7 +16,11 @@ const traerUnaEmpresa = async (req, res) => {
             return res.status(404).json({ ok: false, msg: 'Empresa no encontrado', icon: 'error' });
         }
 
-        res.status(200).json(empresaEncontrada);
+        const imgBase64 = empresaEncontrada.img ? Buffer.from(empresaEncontrada.img).toString('base64') : null;
+        res.status(200).json({
+            ...empresaEncontrada.toJSON(),
+            img: imgBase64
+        });
     } catch (error) {
         console.error('Error al buscar el Empresa:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
@@ -24,13 +28,13 @@ const traerUnaEmpresa = async (req, res) => {
 };
 
 const crearEmpresa = async (req, res) => {
-    const { cuit, telefono } = req.body;
-    const cuitSinGuion = cuit.replace(/\-/g, '');
-
-    const telefonoSinEspacio = telefono.replace(/\s/g, '');
+    const { cuit, telefono, img } = req.body;
+    const cuitSinGuion = cuit ? cuit.replace(/\-/g, '') : '';
+    const telefonoSinEspacio = telefono ? telefono.replace(/\s/g, '') : '';
 
     try {
-        const empresa = await Empresa.create({ ...req.body, cuit: cuitSinGuion, telefono: telefonoSinEspacio });
+        const imgBuffer = img ? Buffer.from(img, 'base64') : null;
+        const empresa = await Empresa.create({ ...req.body, cuit: cuitSinGuion, telefono: telefonoSinEspacio, img: imgBuffer });
         res.status(201).json({
             ok: true,
             ...empresa,
@@ -47,14 +51,15 @@ const crearEmpresa = async (req, res) => {
     }
 };
 
+
 const modificarEmpresa = async (req, res) => {
-    const { cuit, telefono } = req.body;
-    const cuitSinGuion = cuit.replace(/\-/g, '');
-
-    const telefonoSinEspacio = telefono.replace(/\s/g, '');
-
+    const { cuit, telefono, img } = req.body;
+    const cuitSinGuion = cuit ? cuit.replace(/\-/g, '') : '';
+    const telefonoSinEspacio = telefono ? telefono.replace(/\s/g, '') : '';
+    
     try {
-        await Empresa.update({ ...req.body, cuit: cuitSinGuion, telefono: telefonoSinEspacio }, {
+        const imgBuffer = img ? Buffer.from(img, 'base64') : null;
+        await Empresa.update({ ...req.body, cuit: cuitSinGuion, telefono: telefonoSinEspacio, img: imgBuffer }, {
             where: { id: req.params.id }
         });
         res.status(201).json({ ok: true, msg: 'La empresa se actualizó correctamente', icon: 'success' })

@@ -3,6 +3,7 @@ const { DataTypes } = require("sequelize")
 
 //Nombre de la tabla, nombre de las columnas
 const EmpresaModel = db.define('empresa', {
+    img: { type: DataTypes.BLOB },
     nombre: { type: DataTypes.STRING, allowNull: false },
     cuit: { type: DataTypes.STRING(13) },
     telefono: { type: DataTypes.STRING(15) },
