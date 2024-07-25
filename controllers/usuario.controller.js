@@ -17,12 +17,19 @@ const traerUnUsuario = async (req, res) => {
             return res.status(404).json({ ok: true, msg: 'Usuario no encontrado', icon: 'warning' });
         }
 
-        res.status(200).json(usuarioEncontrado);
+        // Convertir la imagen a base64 si existe
+        const imgBase64 = usuarioEncontrado.img ? Buffer.from(usuarioEncontrado.img).toString('base64') : null;
+        res.status(200).json({
+            ...usuarioEncontrado.toJSON(),
+            img: imgBase64
+        });
+        // res.status(200).json(usuarioEncontrado);
     } catch (error) {
         console.error('Error al buscar el usuario:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
 };
+
 
 const crearUsuario = async (req, res) => {
     const { usuario, nombre, apellido, email, idPerfil, idSucursal } = req.body;
@@ -55,10 +62,10 @@ const crearUsuario = async (req, res) => {
         await Usuario.create(dbUsuario)
 
         // Generar respuesta exitosa
-        res.status(201).json({ 
-            ok: true, 
-            msg: 'Usuario creado correctamente', 
-            icon: 'success' 
+        res.status(201).json({
+            ok: true,
+            msg: 'Usuario creado correctamente',
+            icon: 'success'
         });
     } catch (error) {
         console.error("Error: ", error);
@@ -66,18 +73,20 @@ const crearUsuario = async (req, res) => {
     }
 };
 
-const modificarUsuario = async (req, res) => { 
-    const { id } = req.body
+const modificarUsuario = async (req, res) => {
+    const { id, img } = req.body;
     try {
-        await Usuario.update(req.body, {
+        const imgBuffer = img ? Buffer.from(img, 'base64') : null;
+        await Usuario.update({ ...req.body, img: imgBuffer }, {
             where: { id: id }
-        })
-        res.status(201).json({ ok: true, msg: 'La usuario se modificó correctamente', icon: 'success' })
+        });
+        res.status(201).json({ ok: true, msg: 'El usuario se modificó correctamente', icon: 'success' });
     } catch (error) {
         console.error('Error al modificar el usuario:', error);
         res.status(500).json({ ok: false, msg: 'Error interno del servidor', icon: 'error' });
     }
 };
+
 
 const eliminarUsuario = async (req, res) => { }
 

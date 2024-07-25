@@ -3,6 +3,7 @@ const { DataTypes } = require("sequelize");
 const bcrypt = require('bcryptjs');
 
 const UsuarioModel = db.define('usuario', {
+    img: { type: DataTypes.BLOB },
     usuario: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING, allowNull: false },
     nombre: { type: DataTypes.STRING, allowNull: false },
